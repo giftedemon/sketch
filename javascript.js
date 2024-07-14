@@ -83,21 +83,26 @@ canvas.addEventListener('touchstart', (event) => {
 
 // Function to handle touch move event
 canvas.addEventListener('touchmove', (event) => {
-    event.preventDefault(); // Prevent default touch behavior
-    if (isHolding && event.target.classList.contains('gridDiv') && event.target.style.backgroundColor !== color){
-        if (eraser.checked) {
-            color = 'rgb(255, 255, 255)'
-            rainbowMode.checked = false;
-        }
-        else if (rainbowMode.checked){
-            changeColor();
-        }
-        else {
-            color = colorPicker.value;
-        }
+    if (isHolding) {
+        const touch = event.touches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        // Check if the target element is within the canvas
+        if (target && target.classList.contains('gridDiv')) {
+            if (target.style.backgroundColor !== color) {
+                if (eraser.checked) {
+                    color = 'rgb(255, 255, 255)';
+                    rainbowMode.checked = false;
+                } else if (rainbowMode.checked) {
+                    changeColor();
+                } else {
+                    color = colorPicker.value;
+                }
 
-    event.target.style['background-color'] = color;
-}
+                target.style['background-color'] = color;
+            }
+        }
+    }
+    event.preventDefault(); // Prevent default touch behavior
 });
 
 // Function to handle touch end event
