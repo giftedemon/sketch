@@ -76,18 +76,14 @@ canvas.addEventListener('mouseup', () => {
     isHolding = false;
 });
 
-canvas.addEventListener('touchstart', (event) => {
-    event.preventDefault(); // Prevent default touch behavior
-    isHolding = true;
-});
 
 // Function to handle touch move event
 canvas.addEventListener('touchmove', (event) => {
-    if (isHolding) {
-        const touch = event.touches[0];
-        const target = document.elementFromPoint(touch.clientX, touch.clientY);
-        // Check if the target element is within the canvas
-        if (target && target.classList.contains('gridDiv')) {
+    event.preventDefault(); // Prevent default touch behavior
+    const touch = event.touches[0]; 
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    // Check if the target element is within the canvas
+    if (target && target.classList.contains('gridDiv')) {
             if (target.style.backgroundColor !== color) {
                 if (eraser.checked) {
                     color = 'rgb(255, 255, 255)';
@@ -101,14 +97,8 @@ canvas.addEventListener('touchmove', (event) => {
                 target.style['background-color'] = color;
             }
         }
-    }
-    event.preventDefault(); // Prevent default touch behavior
 });
 
-// Function to handle touch end event
-canvas.addEventListener('touchend', () => {
-    isHolding = false;
-});
 
 // Changing canvas resolution
 slider.oninput = () => {
