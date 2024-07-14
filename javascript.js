@@ -76,6 +76,34 @@ canvas.addEventListener('mouseup', () => {
     isHolding = false;
 });
 
+canvas.addEventListener('touchstart', (event) => {
+    event.preventDefault(); // Prevent default touch behavior
+    isHolding = true;
+});
+
+// Function to handle touch move event
+canvas.addEventListener('touchmove', (event) => {
+    event.preventDefault(); // Prevent default touch behavior
+    if (isHolding && event.target.classList.contains('gridDiv') && event.target.style.backgroundColor !== color){
+        if (eraser.checked) {
+            color = 'rgb(255, 255, 255)'
+            rainbowMode.checked = false;
+        }
+        else if (rainbowMode.checked){
+            changeColor();
+        }
+        else {
+            color = colorPicker.value;
+        }
+
+    event.target.style['background-color'] = color;
+}
+});
+
+// Function to handle touch end event
+canvas.addEventListener('touchend', () => {
+    isHolding = false;
+});
 
 // Changing canvas resolution
 slider.oninput = () => {
